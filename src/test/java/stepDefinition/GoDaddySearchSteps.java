@@ -15,6 +15,7 @@ public class GoDaddySearchSteps {
 	
 	WebDriver driver = null;
 	GoDaddyExercise goDaddy;
+	String searchDomainName = "Logic 1 Solutions";
 	
 	
 	@Given("^user is on the goDaddy page$")
@@ -32,19 +33,15 @@ public class GoDaddySearchSteps {
 	@When("^user enters search string$")
 	public void user_enters_search_string() {
 	    goDaddy = new GoDaddyExercise(driver);
-	    goDaddy.searchAnything("Logic 1 Solutions");
+	    goDaddy.searchAnything(searchDomainName);
 		
 	}
 
 	@Then("^search results are returned$")
 	public void search_results_are_returned() {
-		String searchResults = driver.getTitle();
-		System.out.println("Search Page Title: "+ searchResults);
-		WebElement btn_enable = driver.findElement(By.xpath("//button[contains(text(),'Add to Cart')]"));
-		
-		Assert.assertEquals(true, btn_enable.isDisplayed());
-		   	String webRecommend = driver.findElement(By.xpath("//body/div[@id='search-app']/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/p[1]/span[1]")).getText();
-	    	System.out.println("Domain is available " + webRecommend);
+		Assert.assertEquals(true, goDaddy.addToCart(driver));
+		String webRecommend = goDaddy.availableDomainName(driver);
+	    System.out.println("Domain is available " + webRecommend);
 	    
 	    driver.quit();
 	    };
